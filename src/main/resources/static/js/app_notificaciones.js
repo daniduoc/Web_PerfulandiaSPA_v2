@@ -1,5 +1,5 @@
 const notificaciones = (() => {
-  const API_NOTIFICACIONES = "http://localhost:8080/api/v1/notificaciones";
+  const API_NOTIFICACIONES = `http://${window.location.hostname}:8080/api/v1/notificaciones`;
   let notificacionesNoLeidas = 0;
 
   async function cargarNotificaciones() {

@@ -9,7 +9,7 @@ document.getElementById("formIncidencia").addEventListener("submit", async funct
     };
 
     try {
-        const response = await fetch("http://localhost:8080/api/v1/incidencias", {
+        const response = await fetch(`http://${window.location.hostname}:8080/api/v1/incidencias`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(datos)

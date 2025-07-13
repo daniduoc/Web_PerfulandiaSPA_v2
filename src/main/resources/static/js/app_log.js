@@ -1,4 +1,4 @@
-API_URL = "http://localhost:8080/api/v1/usuarios/login";
+API_URL = `http://${window.location.hostname}:8080/api/v1/usuarios/login`;
 // Funcion  o metodo para autenticar el usuario registrado en la base de datos
 function login(){
     fetch(API_URL,{

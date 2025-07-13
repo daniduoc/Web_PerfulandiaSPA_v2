@@ -1,6 +1,6 @@
 const carrito = (() => {
   const API_CARRITO = "/api/v1/carrito";
-  const API_PERFUMES = "http://localhost:8080/api/v1/perfumes";
+  const API_PERFUMES = `http://${window.location.hostname}:8080/api/v1/perfumes`;
 
   async function listarCarrito() {
     try {

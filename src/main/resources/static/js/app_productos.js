@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8080/api/v1/perfumes";
+const API_URL = `http://${window.location.hostname}:8080/api/v1/perfumes`;
 
 function listarPerfumes() {
   fetch(API_URL)
