@@ -48,13 +48,14 @@ public class NotificacionRepository {
         return notificacion;
     }
 
-    public void marcarComoLeida(int id) {
-        for (Notificacion n : listaNotificaciones) {
-            if (n.getIdNotificaciones() == id) {
-                n.setLeida(true);
-                break;
-            }
+    public Notificacion marcarComoLeida(int id) {
+    for (Notificacion n : listaNotificaciones) {
+        if (n.getIdNotificaciones() == id) {
+            n.setLeida(true);
+            return n; // Retorna la notificación modificada
         }
+    }
+    return null; // O puedes lanzar una excepción si no la encuentras
     }
 
     public void marcarTodasComoLeidas() {

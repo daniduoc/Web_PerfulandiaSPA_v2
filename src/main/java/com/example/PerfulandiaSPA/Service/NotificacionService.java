@@ -27,8 +27,9 @@ public class NotificacionService {
         return notificacionRepository.guardar(nueva);
     }
 
-    public void marcarComoLeida(int id) {
-        notificacionRepository.marcarComoLeida(id);
+    public Notificacion marcarComoLeida(int id) {
+        Notificacion notificacion = notificacionRepository.marcarComoLeida(id);
+        return notificacion;
     }
 
     public void marcarTodasComoLeidas() {
