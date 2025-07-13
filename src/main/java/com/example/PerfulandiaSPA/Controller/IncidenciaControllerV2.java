@@ -34,11 +34,10 @@ import org.springframework.hateoas.MediaTypes;
 //import las clases de ResponseEntity para manejar las respuestas http
 import org.springframework.http.ResponseEntity;
 
-
 @RestController
-@RequestMapping("/api/v1/incidencias")
-@Tag(name="Reporte Incidecia", description="Operacion sobre reporte de incidencias ")
+@RequestMapping("/api/v2/incidencias")
 @CrossOrigin
+@Tag(name="Reporte Incidencia", description="Operacion sobre reporte de incidencias ")
 public class IncidenciaControllerV2 {
     @Autowired
     private IncidenciaService servicio;
@@ -46,23 +45,6 @@ public class IncidenciaControllerV2 {
     @Autowired
     private IncidenciaModelAssembler assembler;
 
-    //Crea y guarda un reporte de incidencia 
-    @Operation(summary = "Crea y guarda un reporte de incidencia ", description ="Crea y guarda los datos del reporte de incidencia en una lista")
-    @PostMapping(produces = MediaTypes.HAL_JSON_VALUE)
-    public ResponseEntity<EntityModel<Incidencia>> crear(@RequestBody Incidencia i) {
-        Incidencia creado = servicio.guardarIncidencia(i);
-        return ResponseEntity
-                .created(linkTo(methodOn(IncidenciaControllerV2.class).crear(creado)).toUri())
-                .body(assembler.toModel(creado));
-    }
-
-    //Busca un reporte de incidencia 
-    @Operation(summary = "Busca un reporte de incidencia", description ="Busca un reporte de incidencia por su id en la lista")
-    @GetMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
-    public Optional<Incidencia> buscarPorId(@PathVariable int id) {
-        return servicio.buscarIncidencia(id);
-    }
-    
     //Obtiene el listado total de reportes de incidencia
     @Operation(summary = "Total de reportes de incidencia", description ="Obtiene el listado total de reportes de incidencia")
     @GetMapping(produces = MediaTypes.HAL_JSON_VALUE)
@@ -72,5 +54,27 @@ public class IncidenciaControllerV2 {
             .collect(Collectors.toList());
         return CollectionModel.of(incidencia,
         linkTo(methodOn(IncidenciaControllerV2.class).obtenerTodas()).withSelfRel());
+    }
+
+    //Crea y guarda un reporte de incidencia 
+    @Operation(summary = "Crea y guarda un reporte de incidencia ", description ="Crea y guarda los datos del reporte de incidencia en una lista")
+    @PostMapping(produces = MediaTypes.HAL_JSON_VALUE)
+    public ResponseEntity<EntityModel<Incidencia>> crear(@RequestBody Incidencia i) {
+        Incidencia creado = servicio.guardarIncidencia(i);
+        return ResponseEntity
+        .created(linkTo(methodOn(IncidenciaControllerV2.class).buscarPorId(creado.getId())).toUri())
+        .body(assembler.toModel(creado));
+    }
+
+    //Busca un reporte de incidencia 
+    @Operation(summary = "Busca un reporte de incidencia", description ="Busca un reporte de incidencia por su id en la lista")
+    @GetMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
+    public ResponseEntity<EntityModel<Incidencia>> buscarPorId(@PathVariable int id) {
+        Optional<Incidencia> incidenciaOpt = servicio.buscarIncidencia(id);
+        if (incidenciaOpt.isPresent()) {
+            return ResponseEntity.ok(assembler.toModel(incidenciaOpt.get()));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
