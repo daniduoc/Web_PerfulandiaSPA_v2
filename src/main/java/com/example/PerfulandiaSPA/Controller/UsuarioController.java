@@ -15,18 +15,24 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/v1/usuarios") //URL base para las definiciones HTTP
 @CrossOrigin //Permitir ediciones desde cualquier origen
+@Tag(name = "Usuario", description = "Operaciones sobre los usuarios de controller")
 public class UsuarioController {
     @Autowired
     private UsuarioService serv;
 
+    @Operation(summary = "Registrar usuario", description = "Añadir un usuario en la tabla de usuarios")
     @PostMapping("/registrar") // Este metodo es el metodo para registrar un usuario en la tabla usuario
     public Usuario registrar(@RequestBody Usuario u) {    
         return serv.registrar(u);
     }
 
+    @Operation(summary = "Iniciar sesion", description = "Autentica un usuario con email y contraseña")
     // Metodo para autenticar usuario 
     @PostMapping("/login")
     public Map<String, String> login(@RequestBody Usuario u) {
