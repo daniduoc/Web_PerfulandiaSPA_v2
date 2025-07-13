@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class IncidenciaService {
@@ -18,5 +19,9 @@ public class IncidenciaService {
 
     public List<Incidencia> listarIncidencias() {
         return repo.findAll();
+    }
+    
+    public Optional<Incidencia> buscarIncidencia(int id) {
+        return repo.findById(id); // Usa el mismo comando que getPerfumeId()
     }
 }
